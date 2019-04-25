@@ -1,5 +1,4 @@
 //var data = [80, 100, 56, 120, 180, 30, 40, 120, 160];
-
 var data = [
   {
     date: 1,
@@ -39,6 +38,8 @@ var data = [
   }
 ];
 
+console.log();
+
 document.addEventListener("DOMContentLoaded", function(event) {
   drawChart(data);
 });
@@ -76,17 +77,22 @@ function drawChart(data) {
       return d.date;
     })
   );
-  y.domain(
-    d3.extent(data, function(d) {
+  y.domain([
+    0,
+    d3.max(data, function(d) {
       return d.value;
     })
-  );
+  ]);
 
   g.append("g")
     .attr("transform", "translate(0," + height + ")")
     .call(d3.axisBottom(x))
-    .select(".domain")
-    .remove();
+    .append("text")
+    .attr("fill", "#000")
+    .attr("y", 30)
+    .attr("x", 250)
+    .attr("text-anchor", "start")
+    .text("date");
 
   g.append("g")
     .call(d3.axisLeft(y))
@@ -101,7 +107,7 @@ function drawChart(data) {
   g.append("path")
     .datum(data)
     .attr("fill", "none")
-    .attr("stroke", "#345")
+    .attr("stroke", "#6F2")
     .attr("stroke-linejoin", "round")
     .attr("stroke-linecap", "round")
     .attr("stroke-width", 1.5)

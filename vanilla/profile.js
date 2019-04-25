@@ -1,4 +1,4 @@
-profile = [
+export var profile = [
   {
     test: 1,
     paper: [
@@ -130,5 +130,3 @@ profile = [
     ]
   }
 ];
-
-export { profile };
