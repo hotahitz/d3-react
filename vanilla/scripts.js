@@ -2,39 +2,66 @@
 var data = [
   {
     date: 1,
-    value: 80
+    total: 80,
+    p: 10,
+    c: 20,
+    m: 50
   },
   {
     date: 2,
-    value: 100
+    total: 100,
+    p: 40,
+    c: 20,
+    m: 40
   },
   {
     date: 3,
-    value: 56
+    total: 56,
+    p: 13,
+    c: 23,
+    m: 20
   },
   {
     date: 4,
-    value: 120
+    total: 120,
+    p: 50,
+    c: 40,
+    m: 30
   },
   {
     date: 5,
-    value: 180
+    total: 180,
+    p: 50,
+    c: 80,
+    m: 50
   },
   {
     date: 6,
-    value: 30
+    total: 30,
+    p: 10,
+    c: 10,
+    m: 10
   },
   {
     date: 7,
-    value: 40
+    total: 40,
+    p: 10,
+    c: 10,
+    m: 20
   },
   {
     date: 8,
-    value: 80
+    total: 80,
+    p: 10,
+    c: 25,
+    m: 45
   },
   {
     date: 9,
-    value: 60
+    total: 60,
+    p: 10,
+    c: 20,
+    m: 30
   }
 ];
 
@@ -70,7 +97,7 @@ function drawChart(data) {
       return x(d.date);
     })
     .y(function(d) {
-      return y(d.value);
+      return y(d.total);
     });
   x.domain(
     d3.extent(data, function(d) {
@@ -80,7 +107,7 @@ function drawChart(data) {
   y.domain([
     0,
     d3.max(data, function(d) {
-      return d.value;
+      return d.total;
     })
   ]);
 
@@ -161,11 +188,11 @@ function drawChart(data) {
       d0 = data[i - 1],
       d1 = data[i],
       d = x0 - d0.date > d1.date - x0 ? d1 : d0;
-    focus.attr("transform", "translate(" + x(d.date) + "," + y(d.value) + ")");
+    focus.attr("transform", "translate(" + x(d.date) + "," + y(d.total) + ")");
     focus.select("text").text(function() {
-      return d.value;
+      return "P:" + d.p + "\nC:" + d.c + "\nM:" + d.m;
     });
-    focus.select(".x-hover-line").attr("y2", height - y(d.value));
+    focus.select(".x-hover-line").attr("y2", height - y(d.total));
     focus.select(".y-hover-line").attr("x2", width + width);
   }
 }
