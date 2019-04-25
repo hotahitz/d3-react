@@ -107,9 +107,65 @@ function drawChart(data) {
   g.append("path")
     .datum(data)
     .attr("fill", "none")
-    .attr("stroke", "#6F2")
+    .attr("stroke", "#44753f")
     .attr("stroke-linejoin", "round")
     .attr("stroke-linecap", "round")
     .attr("stroke-width", 1.5)
     .attr("d", line);
+
+  var focus = g
+    .append("g")
+    .attr("class", "focus")
+    .style("display", "none");
+
+  focus
+    .append("line")
+    .attr("class", "x-hover-line hover-line")
+    .attr("y1", 0)
+    .attr("y2", height);
+
+  focus
+    .append("line")
+    .attr("class", "y-hover-line hover-line")
+    .attr("x1", width)
+    .attr("x2", width);
+
+  focus.append("circle").attr("r", 7.5);
+
+  focus
+    .append("text")
+    .attr("x", 15)
+    .attr("dy", ".31em");
+
+  svg
+    .append("rect")
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+    .attr("class", "overlay")
+    .attr("width", width)
+    .attr("height", height)
+    .on("mouseover", function() {
+      focus.style("display", null);
+    })
+    .on("mouseout", function() {
+      focus.style("display", "none");
+    })
+    .on("mousemove", mousemove);
+
+  var bisectDate = d3.bisector(function(d) {
+    return d.date;
+  }).left;
+
+  function mousemove() {
+    var x0 = x.invert(d3.mouse(this)[0]),
+      i = bisectDate(data, x0, 1),
+      d0 = data[i - 1],
+      d1 = data[i],
+      d = x0 - d0.date > d1.date - x0 ? d1 : d0;
+    focus.attr("transform", "translate(" + x(d.date) + "," + y(d.value) + ")");
+    focus.select("text").text(function() {
+      return d.value;
+    });
+    focus.select(".x-hover-line").attr("y2", height - y(d.value));
+    focus.select(".y-hover-line").attr("x2", width + width);
+  }
 }
