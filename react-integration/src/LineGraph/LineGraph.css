@@ -1,0 +1,24 @@
+.focus circle {
+  fill: #f1f3f3;
+  stroke: #53f442;
+  stroke-width: 5px;
+}
+
+.hover-line {
+  stroke: #53f442;
+  stroke-width: 2px;
+  stroke-dasharray: 3, 3;
+}
+
+.overlay {
+  fill: none;
+  pointer-events: all;
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #254422;
+  stroke-width: 2px;
+  shape-rendering: crispEdges;
+}
