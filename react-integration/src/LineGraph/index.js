@@ -118,23 +118,25 @@ class LineGraph extends Component {
       })
       .on("mouseout", function() {
         focus.style("display", "none");
+      })
+      .on("mousemove", () => {
+        // console.log("compile");
+        // console.log(this.svg);
+        let x0 = x.invert(d3.mouse(this.svg)[0]),
+          i = bisectDate(data, x0, 1),
+          d0 = data[i - 2 >= 0 ? i - 2 : 0],
+          d1 = data[i - 1],
+          d = x0 - d0.date > d1.date - x0 ? d1 : d0;
+        focus.attr(
+          "transform",
+          "translate(" + x(d.date) + "," + y(d.total) + ")"
+        );
+        focus.select("text").text(function() {
+          return "P:" + d.p + "\nC:" + d.c + "\nM:" + d.m;
+        });
+        focus.select(".x-hover-line").attr("y2", height - y(d.total));
+        focus.select(".y-hover-line").attr("x2", width + width);
       });
-    // .on("mousemove", () => {
-    //   let x0 = x.invert(d3.mouse(this)[0]),
-    //     i = bisectDate(data, x0, 1),
-    //     d0 = data[i - 1],
-    //     d1 = data[i],
-    //     d = x0 - d0.date > d1.date - x0 ? d1 : d0;
-    //   focus.attr(
-    //     "transform",
-    //     "translate(" + x(d.date) + "," + y(d.total) + ")"
-    //   );
-    //   focus.select("text").text(function() {
-    //     return "P:" + d.p + "\nC:" + d.c + "\nM:" + d.m;
-    //   });
-    //   focus.select(".x-hover-line").attr("y2", height - y(d.total));
-    //   focus.select(".y-hover-line").attr("x2", width + width);
-    // });
 
     let bisectDate = d3.bisector(function(d) {
       return d.date;
@@ -147,65 +149,6 @@ class LineGraph extends Component {
     if (!data) {
       return null;
     }
-
-    let svgWidth = this.props.width;
-    let svgHeight = this.props.height;
-    //console.log(`height ${svgHeight} width ${svgWidth}`);
-    let margin = { top: 20, right: 20, bottom: 30, left: 50 };
-    let width = svgWidth - margin.left - margin.right;
-    let height = svgHeight - margin.top - margin.bottom;
-    let svg = d3
-      .select("svg")
-      .attr("width", svgWidth)
-      .attr("height", svgHeight);
-
-    let g = svg
-      .append("g")
-      .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
-    let x = d3.scaleLinear().rangeRound([0, width]);
-
-    let y = d3.scaleLinear().rangeRound([height, 0]);
-
-    let line = d3
-      .line()
-      .x(function(d) {
-        return x(d.date);
-      })
-      .y(function(d) {
-        return y(d.total);
-      });
-    x.domain(
-      d3.extent(data, function(d) {
-        return d.date;
-      })
-    );
-    y.domain([
-      0,
-      d3.max(data, function(d) {
-        return d.total;
-      })
-    ]);
-
-    g.append("g")
-      .attr("transform", "translate(0," + height + ")")
-      .call(d3.axisBottom(x))
-      .append("text")
-      .attr("fill", "#000")
-      .attr("y", 30)
-      .attr("x", 250)
-      .attr("text-anchor", "start")
-      .text("date");
-
-    g.append("g")
-      .call(d3.axisLeft(y))
-      .append("text")
-      .attr("fill", "#000")
-      .attr("transform", "rotate(-90)")
-      .attr("y", 6)
-      .attr("dy", "0.71em")
-      .attr("text-anchor", "end")
-      .text("marks");
 
     return (
       <svg

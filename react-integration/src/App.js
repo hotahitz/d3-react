@@ -8,6 +8,7 @@ function App() {
   return (
     <div className="App">
       <LineGraph width={600} height={400} />
+      <br />
       <BarGraph />
     </div>
   );
