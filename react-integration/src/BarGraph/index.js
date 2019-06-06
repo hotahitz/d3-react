@@ -1,24 +1,16 @@
 import "./BarGraph.css";
 import React, { Component } from "react";
 import * as d3 from "d3";
-import data from "./data";
 
 class BarGraph extends Component {
-  state = {
-    data: null
-  };
-
-  //componentWillMount() {}
-
-  // shouldComponentUpdate() {
-  //   return false; // This prevents future re-renders of this component
-  // }
-
   componentDidMount() {
+    //const data = this.props.data;
     //console.log(data);
-    let anchor = d3.select(".progress-bars");
+    let anchor = d3.select("#" + this.props.id);
     //Bind data to the bars
-    let div = anchor.selectAll(".progress-bars div").data(data);
+    let div = anchor
+      .selectAll("#" + this.props.id + " div")
+      .data(this.props.data);
     //Add the class bar to the divs
     div
       .enter()
@@ -153,19 +145,11 @@ class BarGraph extends Component {
       });
   }
   render() {
-    if (!data) {
+    if (!this.props.data) {
       return null;
     }
 
-    return (
-      <div className="progress-bars">
-        <svg
-          ref={elem => {
-            this.svg = elem;
-          }}
-        />
-      </div>
-    );
+    return <div className="progress-bars" id={this.props.id} />;
   }
 }
 

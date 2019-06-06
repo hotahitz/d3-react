@@ -1,20 +1,11 @@
 import "./LineGraph.css";
 import React, { Component } from "react";
 import * as d3 from "d3";
-import data from "./data";
+//import data from "./data";
 
 class LineGraph extends Component {
-  state = {
-    data: null
-  };
-
-  //componentWillMount() {}
-
-  // shouldComponentUpdate() {
-  //   return false; // This prevents future re-renders of this component
-  // }
-
   componentDidMount() {
+    const data = this.props.data;
     let svgWidth = this.props.width;
     let svgHeight = this.props.height;
     //console.log(`height ${svgHeight} width ${svgWidth}`);
@@ -77,7 +68,7 @@ class LineGraph extends Component {
     g.append("path")
       .datum(data)
       .attr("fill", "none")
-      .attr("stroke", "#44753f")
+      .attr("stroke", "#214582")
       .attr("stroke-linejoin", "round")
       .attr("stroke-linecap", "round")
       .attr("stroke-width", 1.5)
@@ -131,11 +122,35 @@ class LineGraph extends Component {
           "transform",
           "translate(" + x(d.date) + "," + y(d.total) + ")"
         );
+
         focus.select("text").text(function() {
-          return "P:" + d.p + "\nC:" + d.c + "\nM:" + d.m;
+          return "Total" + d.total + "\nP:" + d.p + "\nC:" + d.c + "\nM:" + d.m;
         });
+
         focus.select(".x-hover-line").attr("y2", height - y(d.total));
         focus.select(".y-hover-line").attr("x2", width + width);
+      })
+      .on("click", () => {
+        let x0 = x.invert(d3.mouse(this.svg)[0]),
+          y0 = y.invert(d3.mouse(this.svg)[1]),
+          i = bisectDate(data, x0, 1),
+          d0 = data[i - 2 >= 0 ? i - 2 : 0],
+          d1 = data[i - 1],
+          d = x0 - d0.date > d1.date - x0 ? d1 : d0,
+          xClick = x(d.date),
+          yClick = y(d.total);
+        console.log(x(x0));
+        console.log(y(y0));
+        console.log(xClick);
+        console.log(yClick);
+
+        if (
+          x(x0) <= xClick + x(7.5) &&
+          x(x0) >= xClick - x(7.5) &&
+          (y(y0) <= yClick + y(7.5) && y(y0) >= yClick - y(7.5))
+        ) {
+          this.props.drawBars(d.pTopics, d.cTopics, d.mTopics);
+        }
       });
 
     let bisectDate = d3.bisector(function(d) {
@@ -143,10 +158,8 @@ class LineGraph extends Component {
     }).left;
   }
 
-  drawChart = () => {};
-
   render() {
-    if (!data) {
+    if (!this.props.data) {
       return null;
     }
 

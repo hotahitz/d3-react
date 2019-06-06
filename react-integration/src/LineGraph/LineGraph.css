@@ -1,11 +1,15 @@
 .focus circle {
   fill: #f1f3f3;
-  stroke: #53f442;
+  stroke: #356ac4;
   stroke-width: 5px;
 }
 
+.focus:hover {
+  cursor: pointer;
+}
+
 .hover-line {
-  stroke: #53f442;
+  stroke: #356ac4;
   stroke-width: 2px;
   stroke-dasharray: 3, 3;
 }
@@ -18,7 +22,7 @@
 .axis path,
 .axis line {
   fill: none;
-  stroke: #254422;
+  stroke: #1c3766;
   stroke-width: 2px;
   shape-rendering: crispEdges;
 }
