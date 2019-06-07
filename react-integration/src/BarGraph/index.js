@@ -68,7 +68,7 @@ class BarGraph extends Component {
       //transition to first color
       .transition()
       .delay(function(d, i) {
-        return i * 200;
+        return i;
       })
       .duration(250)
       .style("background-color", function(d) {
@@ -83,7 +83,7 @@ class BarGraph extends Component {
       //transition to second color
       .transition()
       .delay(function(d, i) {
-        return i * 200 + 250;
+        return i;
       })
       .duration(250)
       .style("background-color", function(d) {
@@ -101,7 +101,7 @@ class BarGraph extends Component {
       //transition to third color
       .transition()
       .delay(function(d, i) {
-        return i * 200 + 500;
+        return i;
       })
       .duration(250)
       .style("background-color", function(d) {
@@ -122,7 +122,7 @@ class BarGraph extends Component {
       //transition to fourth color
       .transition()
       .delay(function(d, i) {
-        return i * 200 + 750;
+        return i;
       })
       .duration(250)
       .style("background-color", function(d) {

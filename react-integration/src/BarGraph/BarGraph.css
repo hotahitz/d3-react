@@ -4,7 +4,6 @@
   min-height: 100px;
   margin-bottom: 50px;
   padding: 25px 0 0 25px;
-  float: left;
 }
 /* The actual bar with the progress*/
 .bar {
