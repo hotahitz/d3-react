@@ -21,12 +21,12 @@
   height: 100%;
   width: 100%;
   background-color: #fb7457;
-}
-/*Div to display the percentage*/
-.percentage {
   margin-left: 0px;
   text-align: center;
   font-family: "Verdana", sans-serif;
   font-size: 0.8em;
   line-height: 18px;
+}
+/*Div to display the percentage*/
+.percentage {
 }

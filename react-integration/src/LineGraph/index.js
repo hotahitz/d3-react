@@ -107,9 +107,9 @@ class LineGraph extends Component {
       .on("mouseover", function() {
         focus.style("display", null);
       })
-      .on("mouseout", function() {
-        focus.style("display", "none");
-      })
+      // .on("mouseout", function() {
+      //   focus.style("display", "none");
+      // })
       .on("mousemove", () => {
         // console.log("compile");
         // console.log(this.svg);
@@ -124,7 +124,9 @@ class LineGraph extends Component {
         );
 
         focus.select("text").text(function() {
-          return "Total" + d.total + "\nP:" + d.p + "\nC:" + d.c + "\nM:" + d.m;
+          return (
+            "Total:" + d.total + "\nP:" + d.p + "\nC:" + d.c + "\nM:" + d.m
+          );
         });
 
         focus.select(".x-hover-line").attr("y2", height - y(d.total));
@@ -139,10 +141,10 @@ class LineGraph extends Component {
           d = x0 - d0.date > d1.date - x0 ? d1 : d0,
           xClick = x(d.date),
           yClick = y(d.total);
-        console.log(x(x0));
-        console.log(y(y0));
-        console.log(xClick);
-        console.log(yClick);
+        // console.log(x(x0));
+        // console.log(y(y0));
+        // console.log(xClick);
+        // console.log(yClick);
 
         if (
           x(x0) <= xClick + x(7.5) &&
